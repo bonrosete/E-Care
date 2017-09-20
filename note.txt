@@ -1,0 +1,72 @@
+*** DJANGO DEVELOPMENT STEPS ***
+
+1. Add view functions
+2. Add url functions inside
+3. Add url functions outside
+
+********************************
+
+*** SUPERUSER ***
+
+admin :: medapp123
+
+*****************
+
+*** MYSQL ACCOUNTS ***
+
+root :: bon101797
+medapp :: medapp123
+
+*****************
+
+*** REGISTER APPS INTO ADMIN ***
+
+modify admin.py
+add "from . models import <model_name>"
+add "admin.site.register(<model_name>)"
+
+************************************
+
+*** CREATING NEW USER IN SQL & GRANT PRIVILEGES ***
+
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+The asterisks in this command refer to the database and table (respectively)
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+
+**********************************
+
+*** CREATING MODELS ***
+
+Steps
+Create model
+Run 'python manage.py migrate'
+Run 'python manage.py makemigrations <app_name>'
+Run 'python manage.py sqlmigrate <app_name> 0001'
+Run 'python manage.py migrate'
+Running the Database API in Shell
+
+Run 'python manage.py shell' (Optional)
+from <app_name>.models import <model_name>
+<model_name>.objects.all()
+<variable> = <model_name>(<field1> = <input>, <field2> = <input>)
+<variable>.save()
+<variable>.id	<variable>.<field1>	<variable>.<field2>
+<variable>.<field1> = <new_input>
+<variable>.save()
+<model_name>.objects.all()
+
+**************************
+
+NOTE!!!
+
+Edit view functions with regards to new database modifications
+Patients will only use the signup
+Doctors will have account immediately
+Foreign key id of accounts and patients / doctors
+Diagnosis > Purpose
+make-appointment
+	date, doctor, purpose
+add account_type in accounts table
+
+MERGE patients and doctors into 1 account

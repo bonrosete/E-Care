@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<!-- Main content of body -->
+	{% load static %}
+	{% if request.session.logged_in %}
+	<header><h1>Account Overview</h1></header>
+	<!-- Display user information -->
+	<div class="account_details" >
+		<div class="container" >
+      <div class="row" >
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+   
+   
+          <div class="panel panel-info" >
+            <div class="panel-heading" >
+              <h3 class="panel-title" style="text-align: center;">{{fn}} {{ln}}</h3>
+            </div>
+            <div class="panel-body" >
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{% static 'imgs/user1.png' %}" style="height: 150px; width: 125px"> </div>
+                <div class=" col-md-9 col-lg-9 " > 
+                  <table class="table table-user-information" >
+                    <tbody>
+                      <tr>
+                        <td>Date of Birth</td>
+                        <td>{{birthday|date:"M. d, Y"}}</td>
+                      </tr>
+                        <tr>
+                        <td>Gender</td>
+                        <td>{{gender}}</td>
+                      </tr>
+                        <tr>
+                        {% if request.session.account_type == 'Patient' %}
+                        <td>Home Address</td>
+                        {% else %}
+                        <td>Clinic Address</td>
+                        {% endif %}
+                        <td>{{address}}</td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td>{{email}}</td>
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+            </div>
+<!--                  <div class="panel-footer">
+                        <a data-original-title="messageadmin" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i><p>Contact us</p></a>
+                        <span class="pull-right">
+                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i><p>Edit your Profile</p></a>
+                        </span>
+                    </div> -->
+            
+          </div>
+        </div>
+      </div>
+    </div>
+		<!-- <p>First Name: {{fn}}</p>
+		<p>Last Name: {{ln}}</p>
+		<p>Age: {{age}}</p>
+		<p>Gender: {{gender}}</p>
+		<p>Birthday: {{birthday}}</p>
+		<p>Address: {{address}}</p>
+		<p>Email: {{email}}</p> -->
+	</div>
+	<!-- Test done -->
+	{% else %}
+	<h1>There is no logged in account!<h1>
+	{% endif %}
+{% endblock %}

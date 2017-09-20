@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block title %}Requests{% endblock %}
+
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<!-- Main content of body -->
+	{% if request.session.logged_in %}
+	
+	{% if requests %}
+		<header>
+			<h1>Appointment Requests</h1>
+			<p>Accept or modify requests from patients.</p>
+		</header>
+		<div class="container">
+			<table class="table table-striped" id="table">
+				<tr>
+					<th>Purpose</th>
+					<th>Patient</th>
+					<th>Date</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Status</th>
+				</tr>
+				{% for r in requests %}
+				<tr>
+					<td>{{r.purpose}}</td>
+					<td>{{r.patient}}</td>
+					<td>{{r.date}}</td>
+					<td>{{r.starttime|time:"h:i A"}}</td>
+					<td>{{r.endtime|time:"h:i A"}}</td>
+					<td><a href={{r.id}}><button class="btn btn-primary" onclick="myFunction(this)">Confirm</button></a>
+							<a href='modify/{{r.id}}'><button class="btn btn-primary" onclick="myFunction(this)">Modify</button></a></td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+
+		<script type="text/javascript">
+			function myFunction(r){
+				alert('Operation successful');
+			}
+		</script>
+	{% else %}
+	<header><h1>No requests to display</h1></header>
+	{% endif %}
+	
+	{% else %}
+	<h1>There is no logged in account!<h1>
+	{% endif %}
+{% endblock %}

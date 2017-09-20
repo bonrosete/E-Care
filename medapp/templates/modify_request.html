@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block title %}Modify Request{% endblock %}
+
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<!-- Main content of body -->
+	{% if request.session.logged_in %}
+	<header>
+		<h1>Modify Request</h1>
+		<p>You can only modify the date and time of the request.</p>
+	</header>
+	<div class="container">
+		<table class="table table-striped" id="table">
+			<tr>
+				<th>Purpose</th>
+				<th>Patient</th>
+				<th>Date</th>
+				<th>Start Time</th>
+				<th>End Time</th>
+			</tr>
+			<tr>
+				<td>{{modify.purpose}}</td>
+				<td>{{modify.patient}}</td>
+				<td>{{modify.date}}</td>
+				<td>{{modify.starttime|time:"h:i A"}}</td>
+				<td>{{modify.endtime|time:"h:i A"}}</td>
+			</tr>
+		</table>
+	</div>
+	<form action="#" method="POST" class="modify_container">
+			{% csrf_token %}
+			<div class="modify_request_container">
+				<p id="eventsExample">New time range<br>
+				Time: <input type="text" class="time start" name="timeStart" />
+			    to <input type="text" class="time end" name="timeEnd" />
+			    <button class="btn btn-primary">Confirm Appointment</button>
+			</div>
+			<script type="text/javascript">
+				$('#eventsExample .time').timepicker({
+			        'showDuration': true,
+			        'timeFormat': 'g:ia',
+			        'scrollDefault': 'now',
+			        'disableTimeRanges': [
+			        	['12am', '9am'],
+			        	['8pm', '11:59pm'],
+			        ]
+
+			    });
+			    var basicExampleEl = document.getElementById('eventsExample');
+			    var datepair = new Datepair(basicExampleEl);
+				function myFunction(r){
+					alert('Modify successful');
+				}
+			</script>
+		</form>
+
+	
+	{% else %}
+	<h1>There is no logged in account!<h1>
+	{% endif %}
+{% endblock %}

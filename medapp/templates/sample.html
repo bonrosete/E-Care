@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sample</title>
+</head>
+<body>
+	<form action="/access" method="POST">
+		{% csrf_token %}
+		<input type="text" name="input">
+		<button>Submit</button>
+	</form>
+</body>
+</html>

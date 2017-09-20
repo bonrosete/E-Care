@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block body %}
+  <!-- Load the navbar -->
+  {% if request.session.account_type == 'Patient' %}
+    {% include 'includes/_navdashp.html' %}
+      {% if request.session.logged_in %}
+      <!-- Content for patient dashboard -->
+      <header><h1>Welcome <small>{{request.session.username}}</small></h1></header>
+      
+        {% for ca in current_appointments %}
+        <div class="notice_container">
+          <h2>{{notice}}</h2>
+          <p>{{ca.purpose}} to Dr. {{ca.doctor}}</p>
+          <p>in {{ca.date}} from {{ca.starttime|time:"h:i A"}} to {{ca.endtime|time:"h:i A"}}</p>
+        </div>
+        {% endfor %}
+
+        
+        <!-- Insert notification area here -->
+
+
+
+
+
+
+
+
+
+        
+      {% else %}
+      <h1>There is no logged in account!<h1>
+      {% endif %}
+
+
+  {% else %}
+
+
+
+    {% include 'includes/_navdashd.html' %}
+      {% if request.session.logged_in %}
+      <!-- Content for patient dashboard -->
+      <header><h1>Welcome <small>Dr. {{request.session.username}}</small></h1></header>
+      {% else %}
+      <h1>There is no logged in account!<h1>
+      {% endif %}
+  {% endif %}
+
+  <script type="text/javascript">
+    console.log('{{date}}');
+    console.log('{{notice}}');
+  </script>
+{% endblock %}

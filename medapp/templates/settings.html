@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block title %}E-Care | Settings{% endblock %}
+
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<!-- Main content of body -->
+	<h1>Settings - No content yet!</h1>
+{% endblock %}

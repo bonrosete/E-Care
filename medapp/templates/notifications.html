@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+		{% include 'includes/_navdashp.html' %}
+    {% load humanize %}
+          <div class="notifications_container">
+            {% if latest_appointments %}
+              <h2>You have new appointment</h2>
+              {% for la in latest_appointments %}
+                <p>Dr. {{la.doctor}} accepted your {{la.purpose}} appointment <small>{{la.timestamp|naturaltime}}</small></p>
+                <hr>
+              {% endfor %}
+            {% else %}
+              <h2>No new notifications</h2>
+            {% endif %}
+          </div>
+		{% else %}
+		{% include 'includes/_navdashd.html' %}
+		{% endif %}
+
+	<!-- Main content of body -->
+	
+	<!-- Test done -->
+
+{% endblock %}

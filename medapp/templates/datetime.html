@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}E-Care | About{% endblock %}
+
+{% block body %}
+	{% include 'includes/_navdash.html' %}
+	<p id="eventsExample">
+    <input type="text" class="date start" />
+    <input type="text" class="time start" /> to
+    <input type="text" class="time end" />
+    <input type="text" class="date end" />
+	</p>
+	<p id="eventsExampleStatus"></p>
+	<script>
+	    // initialize input widgets first
+	    $('#eventsExample .time').timepicker({
+	        'showDuration': true,
+	        'timeFormat': 'g:ia'
+	    });
+
+	    $('#eventsExample .date').datepicker({
+	        'format': 'm/d/yyyy',
+	        'autoclose': true
+	    });
+
+	    // initialize datepair
+	    var basicExampleEl = document.getElementById('eventsExample');
+	    var datepair = new Datepair(basicExampleEl);
+
+	    // some sample handlers
+		$('#eventsExample').on('rangeSelected', function(){
+		    $('#eventsExampleStatus').text('Valid range selected');
+		}).on('rangeIncomplete', function(){
+		    $('#eventsExampleStatus').text('Incomplete range');
+		}).on('rangeError', function(){
+		    $('#eventsExampleStatus').text('Invalid range');
+		});
+	</script>
+{% endblock %}

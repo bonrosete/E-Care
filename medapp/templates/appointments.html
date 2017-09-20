@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block title %}Appointments{% endblock %}
+
+{% block body %}
+	{% include 'includes/_navdashd.html' %}
+	{% if not appointments %}
+	<header><h1>No appointments</h1></header>
+	{% else %}
+	<header>
+		<h1>Upcoming Appointments</h1>
+		<p>These are your appointments. Be sure to click 'Done' button when the appointment is finished.</p></header>
+	<div class="container">
+	<table class="table table-striped" id="table">
+		<tr>
+			<th>Purpose</th>
+			<th>Patient</th>
+			<th>Date</th>
+			<th>Start Time</th>
+			<th>End Time</th>
+			<th>Status</th>
+		</tr>
+		{% for a in appointments %}
+		<tr>
+			<td>{{a.purpose}}</td>
+			<td>{{a.patient}}</td>
+			<td>{{a.date}}</td>
+			<td>{{a.starttime|time:"h:i A"}}</td>
+			<td>{{a.endtime|time:"h:i A"}}</td>
+			<td><a href={{a.id}}><button onclick="myFunction(this)">Done</button></a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	</div>
+
+	<script type="text/javascript">
+		function myFunction(r){
+			alert('Success');
+		}
+	</script>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,319 @@
+body {
+	font-size: 16px;
+	padding: 0px;
+	margin: 0;
+	height: 100%;
+}
+
+.forms {
+	margin: 20px 150px 20px 150px;
+	padding: 50px;
+	text-align: center;
+	background-color: #f4f4f4;
+}
+
+.forms input {
+	margin: 5px;
+	padding: 5px;
+}
+
+.alert {
+	margin: 20px 150px 20px 150px;
+}
+
+/* Register design */
+.register_container {
+	margin: 0 25% 0 25%;
+}
+
+/* Index design */
+/*#test p {
+    opacity: 0;
+    font-size: 21px;
+    margin-top: 25px;
+    text-align: center;
+
+    -webkit-transition: opacity 2s ease-in;
+       -moz-transition: opacity 2s ease-in;
+        -ms-transition: opacity 2s ease-in;
+         -o-transition: opacity 2s ease-in;
+            transition: opacity 2s ease-in;
+}
+
+#test p.load {
+    opacity: 1;
+}*/
+
+/* Carousel design */
+/*.item img {
+  width: auto;
+  height: 720px;
+  max-height: 720px;
+}*/
+
+/* make-appointment design */
+
+.search_doctor_container {
+	margin: 30px 10% 0 10%;
+	float: right;
+}
+
+.search_doctor_container input{
+	width: 250px;
+}
+
+.select_doc_container {
+	text-align: center;
+}
+
+.make_app_container {
+/*	border: 1px black solid;*/
+	margin: 0 20% 0 20%;
+	text-align: center;
+}
+
+.make_app_container select {
+
+	margin: 20px;
+	padding: 10px;
+}
+
+.make_app_container input {
+
+	width: auto;
+	margin: 20px;
+	padding: 5px;
+}
+
+
+
+.make_app_container button {
+
+	padding: 10px;
+	width: 250px;
+}
+
+/* Dashboard design */
+.notice_container {
+	text-align: center;
+	color: white;
+	background-color: #4dc9ff;
+	padding: 20px;
+	margin: 10px 20% 0 20%;
+}
+
+/* Login design */
+.register-page {
+	width: 360px;
+	padding: 20px 0 0 0;
+	margin: auto;
+}
+
+.form {
+	  position: relative;
+	  background: #FFFFFF;
+	  max-width: 360px;
+	  margin: 0 auto 100px;
+	  padding: 45px;
+	  text-align: center;
+	  box-shadow: 10px 10px 10px 10px #b3b3b3;
+	 
+}
+
+.form input {
+	  background: #f2f2f2;
+	  width: 100%;
+	  border: 0;
+	  margin: 0 0 15px;
+	  padding: 15px;
+	  box-sizing: border-box;
+	  font-size: 14px;
+}
+
+.form button {
+  text-transform: uppercase;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.container form {
+	background-color: #1b85b8;
+	margin: 0;
+}
+
+/* Modify request design */
+.modify_container {
+	text-align: center;
+}
+.modify_request_container {
+	text-align: center;
+	display: inline-block;
+	width: auto;
+}
+
+
+/* Index design */
+
+.introduction {
+	margin: 50px;
+	text-align: center;
+}
+.index_container{
+	width: 100;
+	margin: auto;
+	overflow: hidden;
+}
+
+.boxes {
+	margin: 50px 0 0 0;
+	padding: 10px;
+}
+
+.box1{
+	height: 15%;
+    width: 27%;
+/*	background-color: #88b2f7;*/
+	display: block;
+/*	border-width:5px;  
+    border-style:outset;
+	border-radius: 25px;*/
+	float:left;
+	margin-left: 75px;
+	margin-right: 30px;
+	padding: 25px;
+	text-align: center;
+	overflow: hidden;
+}
+
+.box2{
+	height: 15%;
+    width: 27%;
+/*	background-color: #b0f788;*/
+	display: block;
+/*	border-width:5px;  
+    border-style:outset;
+	border-radius: 25px;*/
+	float:left;
+	margin-right: 30px;
+	padding: 25px;
+	text-align: center;
+	overflow: hidden;
+}
+
+.box3{
+	height: 15%;
+    width: 27%;
+/*	background-color: #f9f977;*/
+	display: block;
+/*	border-width:5px;  
+    border-style:outset;
+	border-radius: 25px;*/
+	float:left;
+	margin: auto;
+	padding: 25px;
+	text-align: center;
+	overflow: hidden;
+}
+
+#infos{
+	margin-top: 20px;
+}
+
+#infos .box{
+	float: left;
+	width: 30%;
+	padding: 10px;
+	text-align: center;
+}
+
+#infos .box img{
+	width: 90px;
+}
+
+.myCarousel {
+	margin: 0;
+}
+
+#calendar{
+	margin: 100px;
+}
+
+/* News design */
+.news_container {
+	background-color: #f4f4f4;
+	margin: 0 15% 20px 15%;
+	padding: 10px;
+	border-radius: 25px
+}
+
+
+/* Notification design */
+
+.notifications_container {
+	text-align: center;
+	margin: 0 20% 0 20%;
+	padding: 10px;
+}
+
+/* Global design */
+header {
+	text-align: center;
+}
+
+
+.test {
+	margin: 0 10% 0 10%;
+}
+
+footer {
+	padding: 20px;
+	margin-top: 50px;
+	color: #ffffff;
+	background-color: #4dc9ff;
+	text-align: center;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 142px; /* .push must be the same height as .footer */
+}
+
+/* Bootstrap navbar custom design */
+.navbar {
+    background-color: #4dc9ff;
+}
+
+#navbar li a{
+	color: white;
+}
+
+#brand{
+	color: white;
+}
+
+.navbar-default .navbar-brand{
+	color: white;
+}
+
+#navbar li a:hover{
+	background-color: #007db3;
+}
+
+#navbar header .highlight, header .current a {
+	color: #d2dadf;
+	font-weight: bold;
+}
+
+#navbar .current {
+	background-color: #007db3;
+}

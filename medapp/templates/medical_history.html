@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block title %}Medical History{% endblock %}
+
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<!-- Main content of body -->
+	{% if not medical_history %}
+	<header><h1>You have no medical history available at this time</h1></header>
+	{% else %}
+	<header>
+		<h1>Medical History</h1>
+		<p>This is where you can see all of the past appointments you have completed.</p>
+	</header>
+	<div class="test">
+	<table class="table table-striped">
+		<tr>
+			<th>Purpose</th>
+			<th>Doctor</th>
+			<th>Date</th>
+		</tr>
+		{% for m in medical_history %}
+		<tr>
+			<td>{{m.diagnosis}}</td>
+			<td>{{m.doctor_name}}</td>
+			<td>{{m.date}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	</div>
+	{% endif %}
+{% endblock %}

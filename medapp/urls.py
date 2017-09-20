@@ -1,0 +1,32 @@
+from django.conf.urls import url
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    # url(r'^about$', views.about, name='about'),
+    url(r'^news$', views.news, name='news'),
+    url(r'^login$', views.login, name='login'),
+    url(r'^logout$', views.logout, name='logout'),
+    url(r'^register$', views.register, name='register'),
+    url(r'^dashboard$', views.dashboard, name='dashboard'),
+    url(r'^account$', views.account, name='account'),
+    url(r'^make-appointment/$', views.makeAppointment, name='makeAppointment'),
+    url(r'^make-appointment/([0-9]+)/$', views.test, name='test'),
+    url(r'^my-schedule/$', views.mySchedule, name='mySchedule'),
+    url(r'^my-schedule/([0-9]+)$', views.cancelSchedule, name='cancelSchedule'),
+    # url(r'^settings$', views.settings, name='settings'),
+    url(r'^make-appointment/([0-9]+)/test$', views.test, name='test'),
+    url(r'^datetime$', views.datetime, name='datetime'),
+    url(r'^medical-history$', views.medicalHistory, name='medicalHistory'),
+    url(r'^appointments/$', views.appointments, name='appointments'),
+    url(r'^appointments/([0-9]+)$', views.removeAppointment, name='removeAppointment'),
+    url(r'^requests/$', views.requests, name='requests'),
+    url(r'^requests/([0-9]+)$', views.acceptRequest, name='acceptRequest'),
+    url(r'^requests/modify/([0-9]+)$', views.modifyRequest, name='modifyRequest'),
+    url(r'^test-time$', views.testTime, name='testTime'),
+    url(r'^calendar$', views.calendar, name='calendar'),
+    url(r'^notifications$', views.notifications, name='notifications'),
+    url(r'^ajax/validate_date/$', views.validate_date, name='validate_date'),
+    url(r'^sample-login$', views.sample, name='sample'),
+    url(r'^access$', views.access, name='access'),
+]

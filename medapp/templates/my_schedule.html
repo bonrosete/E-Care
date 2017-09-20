@@ -1,0 +1,115 @@
+{% extends 'layout.html' %}
+
+{% block title %}E-Care | Schedule{% endblock %}
+{% block head %}
+	{% load static %}
+	<link href="{% static 'css/fullcalendar.min.css' %}" rel='stylesheet' />
+	<link href="{% static 'css/fullcalendar.print.min.css' %}" rel='stylesheet' media='print' />
+	<script src="{% static 'js/fullcalendar.min.js' %}"></script>
+	
+
+<style>
+
+	#calendar {
+		margin: 40px 10px;
+		padding: 0;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		font-size: 14px;
+		max-width: 900px;
+		margin: 0 auto 50px;
+	}
+
+</style>
+{% endblock %}
+{% block body %}
+	<!-- Load the navbar -->
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<!-- Main content of body -->
+	{% if not user_appointment %}
+	<header>
+		<h1>No appointment yet</h1>
+		<p>We will notify you here if your request is accepted.</p>
+		{% if requestCount > 1 %}
+			<p>You have (<b>{{requestCount}}</b>) pending requests.</p>
+		{% elif requestCount == 1 %}
+			<p>You have (<b>{{requestCount}}</b>) pending request.</p>
+		{% endif %}
+	</header>
+	{% else %}
+	<header>
+		<h1>Upcoming Appointments</h1>
+		<p>This is where your appointments are displayed. Note that your request will be processed before being
+			displayed here.</p>
+		{% if requestCount > 1 %}
+			<p>You have (<b>{{requestCount}}</b>) pending requests.</p>
+		{% elif requestCount == 1 %}
+			<p>You have (<b>{{requestCount}}</b>) pending request.</p>
+		{% endif %}
+	<div id='calendar'></div>
+	</header>
+	<div class="test">
+	<header>
+		<h1>Appointment Summary</h1>
+		<p>Your appointment summary are displayed here for more details.</p>
+	</header>
+	<table class="table table-striped">
+		<tr>
+			<th>Purpose</th>
+			<th>Doctor</th>
+			<th>Date</th>
+			<th>Start Time</th>
+			<th>End Time</th>
+			<th>Status</th>
+		</tr>
+		{% for a in user_appointment %}
+		<tr>
+			<td>{{a.purpose}}</td>
+			<td>{{a.doctor}}</td>
+			<td>{{a.date}}</td>
+			<td>{{a.starttime|time:"h:i A"}}</td>
+			<td>{{a.endtime|time:"h:i A"}}</td>
+			<td><a href="{{a.id}}" class="confirm_delete"><button class="btn btn-danger">Cancel</button></a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	</div>
+	{% endif %}
+		<script>
+
+		$(document).on('click', '.confirm_delete', function(){
+			return confirm("Are you sure you want to cancel the appointment?");
+		});
+
+		$(document).ready(function() {
+			
+			$('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,basicWeek,basicDay'
+				},
+				defaultDate: '2017-09-12',
+				navLinks: true, // can click day/week names to navigate views
+				editable: false,
+				eventLimit: true, // allow "more" link when too many events
+				events: [
+					{% for a in user_appointment %}
+
+						{
+							title: '{{a.purpose}}',
+							start: '{{ a.date|date:"c" }}T{{a.starttime|time:"H:i:s"}}',
+							end: '{{ a.date|date:"c" }}T{{a.endtime|time:"H:i:s"}}',
+						},
+					{% endfor %}
+				]
+			});
+			
+		});
+		</script>
+	
+{% endblock %}
