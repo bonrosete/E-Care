@@ -12,8 +12,9 @@ admin :: medapp123
 
 *****************
 
-*** MYSQL ACCOUNTS ***
+*** MYSQL & POSTGRES ACCOUNTS ***
 
+postgres :: bon101797
 root :: bon101797
 medapp :: medapp123
 
@@ -60,13 +61,10 @@ from <app_name>.models import <model_name>
 
 NOTE!!!
 
-Edit view functions with regards to new database modifications
-Patients will only use the signup
-Doctors will have account immediately
-Foreign key id of accounts and patients / doctors
-Diagnosis > Purpose
-make-appointment
-	date, doctor, purpose
-add account_type in accounts table
+// migrated from mysql to postgres for Heroku
+python manage.py inspectdb
+python manage.py migrate
 
-MERGE patients and doctors into 1 account
+heroku run bash
+heroku run python manage.py makemigrations
+herok run python manage.py migrate && heroku run python manage.py createsuperuser

@@ -131,14 +131,13 @@ def makeAppointment(request, methods=['GET', 'POST']):
 
 	if request.method == 'POST':
 		doctor_name = request.POST['search']
-		all_doctors = Account_Info.objects.filter(account_type='doctor')
+		all_doctors = Account_Info.objects.filter(account_type='Doctor')
 		full_doc_name = all_doctors.annotate(full_name=Concat('first_name', Value(' '), 'last_name'))
 		doctors = full_doc_name.filter(full_name__icontains=doctor_name)
 		doc_spec = Specialization.objects.all()
 	else:
-		doctors = Account_Info.objects.filter(account_type='doctor')
-		doc_spec = Specialization.objects.all()
-	return render(request, 'make_appointment.html', {'doctors':doctors}, {'doc_spec': doc_spec})
+		doctors = Account_Info.objects.filter(account_type='Doctor')
+	return render(request, 'make_appointment.html', {'doctors':doctors})
 
 	# return render(request, 'make_appointment.html', {'doctors':doctors}, {'specialization': doctor_specialization})
 

@@ -76,13 +76,23 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'localhost',
+#         'NAME': 'medappdb',
+#         'USER': 'medapp',
+#         'PASSWORD': 'medapp123',
+#         'PORT': ''
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'localhost',
         'NAME': 'medappdb',
-        'USER': 'medapp',
-        'PASSWORD': 'medapp123',
+        'USER': 'postgres',
+        'PASSWORD': 'bon101797',
         'PORT': ''
     }
 }
