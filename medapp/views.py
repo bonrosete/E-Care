@@ -14,8 +14,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 
 # Django REST Framework Configuration
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+# from django.contrib.auth.models import User, Group
+# from rest_framework import viewsets
 
 def index(request):
 	if 'logged_in' in request.session:
