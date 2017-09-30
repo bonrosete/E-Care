@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from . models import Accounts, Appointment, Account_Info, MedicalHistory, Requests, Test, LoginRecord, Specialization
+from . models import Accounts, Appointment, Account_Info, MedicalHistory, Requests
 from django import forms
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
@@ -10,9 +10,16 @@ from django.db.models import Value
 from django.db.models.functions import Concat
 from django.core.exceptions import ObjectDoesNotExist
 import json
-# Create your views here.
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
+
+# Django REST Framework Configuration
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
 
 def index(request):
+	if 'logged_in' in request.session:
+		return redirect('/dashboard')
 	return render(request, 'index.html')
 
 
@@ -76,10 +83,9 @@ def login(request):
 
 def logout(request):
 	request.session['logout_time'] = timezone.now().strftime('%Y-%m-%dT%H:%M:%S')
-	saveLogin = LoginRecord(username=request.session['username'],
-				login=request.session['login_time'],
-				logout=request.session['logout_time'])
-	saveLogin.save()
+	current_user = Accounts.objects.get(username=request.session['username'])
+	current_user.latest_logout = request.session['logout_time']
+	current_user.save()
 	request.session.clear()
 	return redirect('/')
 
@@ -92,11 +98,45 @@ def dashboard(request):
 		datenow = timezone.now().date()
 		current_appointments = Appointment.objects.filter(patient=user_full_name, date=datenow)
 
+		# Validate appointments if it is past the current date, transfer to medical history
+		user_id = Accounts.objects.get(username=request.session['username'])
+		current_user = Account_Info.objects.get(id=user_id.id)
+		user_full_name = current_user.first_name + ' ' + current_user.last_name
+		sort_appointment = Appointment.objects.order_by('date')
+		if request.session['account_type'] == 'Patient':
+			user_appointment = sort_appointment.filter(patient=user_full_name)
+			for ua in user_appointment:
+				if ua.date <= timezone.now().date() and ua.endtime < timezone.now().time():
+					print('TRUE')
+					print('Moving the appointment to medical history...')
+					mh_save = MedicalHistory(diagnosis=ua.purpose,doctor_name=ua.doctor,
+						patient_name=ua.patient,date=ua.date)
+					mh_save.save()
+					Appointment.objects.filter(id=ua.id).delete()
+					print(ua.id)
+					print('Move successful...')
+				else:
+					print('FALSE')
+		else:
+			user_appointment = sort_appointment.filter(doctor=user_full_name)
+			for ua in user_appointment:
+				if ua.date <= timezone.now().date() and ua.endtime < timezone.now().time():
+					print('TRUE')
+					print('Moving the appointment to medical history...')
+					mh_save = MedicalHistory(diagnosis=ua.purpose,doctor_name=ua.doctor,
+						patient_name=ua.patient,date=ua.date)
+					mh_save.save()
+					Appointment.objects.filter(id=ua.id).delete()
+					print(ua.id)
+					print('Move successful...')
+				else:
+					print('FALSE')
+
 		# Checks if there is new appointment after the last logout of the user FOR PATIENT ONLY
 		if request.session['account_type'] == 'Patient':
 			try:
-				latest_logout = LoginRecord.objects.filter(username=request.session['username']).latest('logout')
-				latest_appointments = Appointment.objects.filter(patient=user_full_name, timestamp__gt=latest_logout.logout)
+				current_user = Accounts.objects.get(username=request.session['username'])
+				latest_appointments = Appointment.objects.filter(patient=user_full_name, timestamp__gt=current_user.latest_logout)
 				context = {'current_appointments': current_appointments,
 					'latest_appointments': latest_appointments,
 					'notice': 'You have upcoming appointment'}
@@ -139,27 +179,12 @@ def makeAppointment(request, methods=['GET', 'POST']):
 		doctors = Account_Info.objects.filter(account_type='Doctor')
 	return render(request, 'make_appointment.html', {'doctors':doctors})
 
-	# return render(request, 'make_appointment.html', {'doctors':doctors}, {'specialization': doctor_specialization})
 
 def mySchedule(request):
 	if 'logged_in' in request.session:
 		user_id = Accounts.objects.get(username=request.session['username'])
 		current_user = Account_Info.objects.get(id=user_id.id)
 		user_full_name = current_user.first_name + ' ' + current_user.last_name
-		sort_appointment = Appointment.objects.order_by('date')
-		user_appointment = sort_appointment.filter(patient=user_full_name)
-		for ua in user_appointment:
-			if ua.date < timezone.now().date():
-				print('TRUE')
-				print('Moving the appointment to medical history...')
-				mh_save = MedicalHistory(diagnosis=ua.purpose,doctor_name=ua.doctor,
-					patient_name=ua.patient,date=ua.date)
-				mh_save.save()
-				Appointment.objects.filter(id=ua.id).delete()
-				print(ua.id)
-				print('Move successful...')
-			else:
-				print('FALSE')
 		sort_appointment = Appointment.objects.order_by('date')
 		user_appointment = sort_appointment.filter(patient=user_full_name)
 		requests = Requests.objects.filter(patient=user_full_name)
@@ -173,8 +198,6 @@ def cancelSchedule(request, id):
 	print('Remove successful')
 	return redirect('/dashboard')
 
-# def settings(request):
-# 	return render(request, 'settings.html')
 
 # Test for appointment system
 def test(request, id):
@@ -208,38 +231,14 @@ def test(request, id):
 
 # Validate the date if it has an existing appointment
 def validate_date(request):
-	date = request.GET.get('date', None)
-	# time_range = Appointment.objects.get(date=date)
-	# context = {'start_time': time_range.starttime, 'end_time': time_range.endtime}
-	# data = json.dumps(context)
-	# result = Appointment.objects.get(date=date)
-	has_appointment = Appointment.objects.filter(date=date).exists()
-	result = Appointment.objects.filter(date=date)
-	if has_appointment == True:
-		result = Appointment.objects.get(date=date)
-		print(result)
-		# data = {
-		# 'has_appointment': Appointment.objects.get(date=date).exists(),
-		# 'time_start': result[0].starttime,
-		# 'time_end': result[0].endtime,
-		# 'result': result
-		# }
-		data = {
-			'start': result.starttime,
-			'end': result.endtime,
-		}
-		# return render(request, 'test.html', data)
-		return JsonResponse(data)
+	selected_date = request.GET.get('date', None)
+	selected_doctor = request.GET.get('doctor_name', None)
+	if Appointment.objects.filter(date=selected_date, doctor=selected_doctor).exists() == True:
+		result = Appointment.objects.filter(date=selected_date, doctor=selected_doctor).values('starttime', 'endtime')
+		data = list(result)
+		return JsonResponse(data, safe=False)
 	else:
-		# data = {}
-		return render(request, 'test.html', {'data': result})
-
-	# return JsonResponse(data)
-	# return HttpResponse(data, content_type='application/json')
-
-# JQuery date time picker: DONE, refer to test view
-def datetime(request):
-	return render(request, 'datetime.html')
+		return render(request, 'test.html')
 
 
 def medicalHistory(request):
@@ -248,7 +247,6 @@ def medicalHistory(request):
 	user_full_name = current_user.first_name + ' ' + current_user.last_name
 	sort_history = MedicalHistory.objects.order_by('date')
 	medical_history =sort_history.filter(patient_name=user_full_name)
-	# medicalHistory = MedicalHistory.objects.filter(patient_name=user_full_name)
 	context = {'medical_history': medical_history}
 	return render(request, 'medical_history.html', context)
 
@@ -261,12 +259,6 @@ def appointments(request):
 
 
 def removeAppointment(request, id):
-	history = Appointment.objects.get(id=id)
-	historySave = MedicalHistory(diagnosis=history.purpose, 
-								doctor_name=history.doctor, 
-								patient_name=history.patient,
-								date=history.date)
-	historySave.save()
 	Appointment.objects.filter(id=id).delete()
 	return redirect('/appointments')
 
@@ -328,6 +320,7 @@ def testTime(request):
 	context = {'time': time, 'datenow': datenow, 'result': result}
 	return render(request, 'test_time.html', context)
 
+
 def notifications(request):
 	if 'logged_in' in request.session:
 		user_id = Accounts.objects.get(username=request.session['username'])
@@ -339,8 +332,8 @@ def notifications(request):
 		# Checks if there is new appointment after the last logout of the user FOR PATIENT ONLY
 		if request.session['account_type'] == 'Patient':
 			try:
-				latest_logout = LoginRecord.objects.filter(username=request.session['username']).latest('logout')
-				latest_appointments = Appointment.objects.filter(patient=user_full_name, timestamp__gt=latest_logout.logout)
+				current_user = Accounts.objects.get(username=request.session['username'])
+				latest_appointments = Appointment.objects.filter(patient=user_full_name, timestamp__gt=current_user.latest_logout)
 				context = {'current_appointments': current_appointments,
 					'latest_appointments': latest_appointments,
 					'notice': 'You have upcoming appointment'}
@@ -356,12 +349,12 @@ def notifications(request):
 		return HttpResponse('Invalid access')
 
 
-
 def sample(request, methods=['GET', 'POST']):
 	if request.method == 'POST':
 		request.session['is_logged_in'] = True
 		return redirect('/sample-login')
 	return render(request, 'sample.html')
+
 
 def access(request):
 	if 'is_logged_in' in request.session:
@@ -369,6 +362,10 @@ def access(request):
 	return HttpResponse('NO LOGIN')
 
 
+def parking(request):
+	all_slots = Parking.objects.all()
+	occupied = Parking.objects.filter(availability=0)
+	return render(request, 'parking.html', {'all_slots': all_slots, 'occupied': occupied})
 
 
 

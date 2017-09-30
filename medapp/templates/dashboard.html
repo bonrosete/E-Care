@@ -17,18 +17,6 @@
           <p>in {{ca.date}} from {{ca.starttime|time:"h:i A"}} to {{ca.endtime|time:"h:i A"}}</p>
         </div>
         {% endfor %}
-
-        
-        <!-- Insert notification area here -->
-
-
-
-
-
-
-
-
-
         
       {% else %}
       <h1>There is no logged in account!<h1>
@@ -36,8 +24,6 @@
 
 
   {% else %}
-
-
 
     {% include 'includes/_navdashd.html' %}
       {% if request.session.logged_in %}
@@ -47,9 +33,5 @@
       <h1>There is no logged in account!<h1>
       {% endif %}
   {% endif %}
-
-  <script type="text/javascript">
-    console.log('{{date}}');
-    console.log('{{notice}}');
-  </script>
+  
 {% endblock %}

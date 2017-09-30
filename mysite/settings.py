@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'medapp.apps.MedappConfig',
     'django.contrib.humanize',
     'django.contrib.admin',
@@ -76,27 +77,34 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'HOST': 'localhost',
-#         'NAME': 'medappdb',
-#         'USER': 'medapp',
-#         'PASSWORD': 'medapp123',
-#         'PORT': ''
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'HOST': 'localhost',
         'NAME': 'medappdb',
-        'USER': 'postgres',
-        'PASSWORD': 'bon101797',
+        'USER': 'medapp',
+        'PASSWORD': 'medapp123',
         'PORT': ''
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': 'localhost',
+#         'NAME': 'medappdb',
+#         'USER': 'postgres',
+#         'PASSWORD': 'bon101797',
+#         'PORT': ''
+#     }
+# }
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

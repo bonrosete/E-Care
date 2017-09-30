@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}E-Care | About{% endblock %}
+
+{% block body %}
+	{% for al in all_slots %}
+		{% if forloop.counter|divisibleby:"7" %}
+			<div class="row" style="">
+				<div class="col-sm-1" data-toggle="tab" style="border: 1px solid black; margin: 10px;">
+					<h1>{{al.id}}</h1>
+					{% for o in occupied %}
+						{% if o.id == al.id %}
+							<p style="">occupied</p>
+							<img src="../static/imgs/car.png" height="50" width="50">
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		{% else %}
+			<div class="col-sm-1" data-toggle="tab" style="border: 1px solid black; margin: 10px;">
+					<h1>{{al.id}}</h1>
+					{% for o in occupied %}
+						{% if o.id == al.id %}
+							<p style="">occupied</p>
+							<img src="../static/imgs/car.png" height="50" width="50">
+						{% endif %}
+					{% endfor %}
+				</div>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

@@ -1,11 +1,13 @@
 from django.db import models
 # Create your models here.
 
+
 class Accounts(models.Model):
 	username = models.CharField(max_length=45)
 	password = models.CharField(max_length=45)
 	reference = models.ForeignKey('Account_Info',on_delete=models.CASCADE)
 	timestamp = models.DateTimeField(auto_now=True)
+	latest_logout = models.DateTimeField()
 	def __str__(self):
 		return self.username
 
@@ -55,6 +57,7 @@ class Appointment(models.Model):
 	def __str__(self):
 		return self.doctor
 
+
 class Requests(models.Model):
 	purpose = models.CharField(max_length=100)
 	doctor = models.CharField(max_length=50)
@@ -66,30 +69,3 @@ class Requests(models.Model):
 	
 	def __str__(self):
 		return self.doctor
-
-
-class Test(models.Model):
-	desc = models.CharField(max_length=20)
-	date = models.DateField(max_length=20)
-	starttime = models.TimeField(max_length=10)
-	endtime = models.TimeField(max_length=10)
-	
-	def __str__(self):
-		return self.desc
-
-
-class Specialization(models.Model):
-	doctor = models.ForeignKey('Account_Info',on_delete=models.CASCADE)
-	specialization = models.CharField(max_length=20)
-
-	def __str__(self):
-		return self.specialization
-
-
-class LoginRecord(models.Model):
-	username = models.CharField(max_length=20)
-	login = models.DateTimeField()
-	logout = models.DateTimeField()
-
-	def __str__(self):
-		return self.username

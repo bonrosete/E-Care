@@ -1,27 +1,22 @@
 {% extends 'layout.html' %}
-
 {% block title %}E-Care | Test{% endblock %}
-
 {% block body %}
-	<!-- Load the navbar -->
 	{% if request.session.account_type == 'Patient' %}
 	{% include 'includes/_navdashp.html' %}
 	{% else %}
 	{% include 'includes/_navdashd.html' %}
 	{% endif %}
-
-	<!-- Main content of body -->
 	{% load static %}
-	<!-- Display selected doctor information -->
+	{% block head %}
+		<script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+	{% endblock %}
 	<header>
 	<div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-   
-   
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">Dr. {{doctor_selected.first_name}} {{doctor_selected.last_name}}</h3>
+              <h3 class="panel-title" id="id_doctor_name">{{doctor_selected.first_name}} {{doctor_selected.last_name}}</h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -46,145 +41,29 @@
                         <td>{{doctor_selected.email}}</td>
                     </tbody>
                   </table>
-                  
                 </div>
               </div>
             </div>
-<!--                  <div class="panel-footer">
-                        <a data-original-title="messageadmin" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i><p>Contact us</p></a>
-                        <span class="pull-right">
-                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i><p>Edit your Profile</p></a>
-                        </span>
-                    </div> -->
-            
           </div>
         </div>
       </div>
     </div>
-		<!-- <p>Your preferred doctor is <b>Dr. {{doctor_selected.first_name}} {{doctor_selected.last_name}}</b></p>
-		<p>{{doctor_selected.address}}</p>
-		<p>{{doctor_selected.email}}</p>
-		{% for tr in time_range %}
-			<p>{{tr.starttime}} to {{tr.endtime}}</p>
-		{% endfor %} -->
-	<h1>{{data.starttime}}</h1>
 	</header>
 	<form action="test" method="POST" class="make_app_container">
 		{% csrf_token %}
-
-			<p id="eventsExample">
-			Date: <input type="text" class="date start" name="date" id="id_date" required/><br>
-		    Time: <input type="text" class="time start" name="timeStart" id="id_start" required/>
-		    to <input type="text" class="time end" name="timeEnd" id="id_end" required/><br>
-		    <p id="eventsExampleStatus"></p>
-			</p>
-			Purpose: <select id="selectBox" name="purpose">
-				<option value="Dental Checkup">Dental Checkup</option>
-				<option value="Dental Cleaning">Dental Cleaning</option>
-				<option value="Medical Checkup">Medical Checkup</option>
-				<option value="General Consultation">General Consultation</option>
-			</select>
-			<br>
-			<button class="btn btn-primary">Submit</button>
-
-
-
-			<script type="text/javascript">
-				var start;
-				var end;
-		      // Date time picker
-		    	// initialize input widgets first
-
-		    	
-
-				// function roundMinutes(date) {
-
-				//     date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
-				//     date.setMinutes(30);
-
-				//     return date;
-				// }
-
-			    $('#eventsExample .time').timepicker({
-			        'showDuration': false,
-			        
-			        'timeFormat': 'g:ia',
-			        'scrollDefault': 'now',
-			        'disableTextInput': true,
-			        // 'minTime': roundMinutes(new Date()),
-			        'minTime': '9:00am',
-			        'maxTime': '6:00pm',
-			        'disableTimeRanges': [
-			        	// ['12am', '9am'],
-			        	// ['8pm', '11:59pm'],
-			        	// {% for d in data %}
-			        		// ['{{d.starttime}}', '{{d.endtime}}'],
-			        	// {% endfor %}
-			        	// [start, end],
-			        	// ['{{data.start}}', '{{data.end}}'],
-			        ]
-
-			    });
-
-			    $('#eventsExample .date').datepicker({
-			    	'startDate': '+1w',
-			    	'endDate': '+5w',
-			        'format': 'yyyy-mm-dd',
-			        'autoclose': true,
-			    });
-
-			    // initialize datepair
-			    var basicExampleEl = document.getElementById('eventsExample');
-			    var datepair = new Datepair(basicExampleEl);
-
-			    // some sample handlers
-			    $('#eventsExample').on('changeDate', function() {
-				    // console.log('Alerta');
-				    var date = $("#id_date").val();
-				    
-				    $.ajax({
-				    	url: '/ajax/validate_date/',
-				    	data: {
-				    		'date': date
-				    	},
-				    	success: function(data) {
-				    		start = data.start;
-				    		end = data.end;
-				    		// $('#eventsExample .time').timepicker('option', 'disableTimeRanges', data.start);
-				    		$('#eventsExample .time').timepicker('option', 'disableTimeRanges', [[data.start, data.end]]);
-				    		console.log('Time range: ' + data.start + ' to ' + data.end);
-				    	}
-				    });
-				});
-				$('#eventsExample').on('rangeSelected', function(){
-				    $('#eventsExampleStatus').text('Valid range selected');
-				}).on('rangeIncomplete', function(){
-				    $('#eventsExampleStatus').text('Incomplete range');
-				}).on('rangeError', function(){
-				    $('#eventsExampleStatus').text('Invalid range');
-				});
-
-			    // Ajax Request for Date
-		    	// $("#id_date").change(function(){
-		    	// 	var date = $(this).val();
-
-		    	// 	$.ajax({
-		    	// 		// url: '/ajax/validate_date/',
-		    	// 		url: '/ajax/validate_date/',
-		    	// 		data: {
-		    	// 			'date': date
-		    	// 		},
-		    	// 		success: function (data) {
-		    	// 			var start = "data.start";
-		    	// 			var end = "data.end";
-		    	// 			console.log('Time range: ' + data.start + ' to ' + data.end);
-		    	// 		}
-		    	// 	});
-		    	// 	console.log( $(this).val() );
-		    	// });
-
-			</script>
-
+		<p id="eventsExample">
+		Date: <input type="text" class="date start" name="date" id="id_date" required/><br>
+	    Time: <input type="text" class="time start" name="timeStart" id="id_start" required/>
+	    to <input type="text" class="time end" name="timeEnd" id="id_end" required/><br>
+	    <p id="eventsExampleStatus"></p>
+		</p>
+		Purpose: <select id="selectBox" name="purpose">
+			<option value="Dental Checkup">Dental Checkup</option>
+			<option value="Dental Cleaning">Dental Cleaning</option>
+			<option value="Medical Checkup">Medical Checkup</option>
+			<option value="General Consultation">General Consultation</option>
+		</select>
+		<br>
+		<button class="btn btn-primary">Submit</button>
 	</form>
-
 {% endblock %}

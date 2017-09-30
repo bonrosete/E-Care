@@ -9,7 +9,7 @@
 	{% else %}
 	<header>
 		<h1>Upcoming Appointments</h1>
-		<p>These are your appointments. Be sure to click 'Done' button when the appointment is finished.</p></header>
+		<p>These are your appointments. Appointments are automatically checked if it is done.</p></header>
 	<div class="container">
 	<table class="table table-striped" id="table">
 		<tr>
@@ -27,12 +27,11 @@
 			<td>{{a.date}}</td>
 			<td>{{a.starttime|time:"h:i A"}}</td>
 			<td>{{a.endtime|time:"h:i A"}}</td>
-			<td><a href={{a.id}}><button onclick="myFunction(this)">Done</button></a></td>
+			<td><a href={{a.id}}><button onclick="myFunction(this)" class="btn btn-danger">Cancel</button></a></td>
 		</tr>
 		{% endfor %}
 	</table>
 	</div>
-
 	<script type="text/javascript">
 		function myFunction(r){
 			alert('Success');

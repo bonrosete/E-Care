@@ -116,14 +116,15 @@ body {
 	  margin: 0 auto 100px;
 	  padding: 45px;
 	  text-align: center;
-	  box-shadow: 10px 10px 10px 10px #b3b3b3;
+	  /*box-shadow: 10px 10px 10px 10px #b3b3b3;*/
 	 
 }
 
 .form input {
-	  background: #f2f2f2;
+	  /*background: #f2f2f2;*/
 	  width: 100%;
 	  border: 0;
+	  border-bottom: 1px solid #4dc9ff;
 	  margin: 0 0 15px;
 	  padding: 15px;
 	  box-sizing: border-box;
@@ -132,7 +133,7 @@ body {
 
 .form button {
   text-transform: uppercase;
-  background: #4CAF50;
+  background: #4dc9ff;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -140,6 +141,7 @@ body {
   font-size: 14px;
   cursor: pointer;
 }
+
 
 .container form {
 	background-color: #1b85b8;
