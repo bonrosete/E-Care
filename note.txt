@@ -68,3 +68,13 @@ python manage.py migrate
 heroku run bash
 heroku run python manage.py makemigrations
 herok run python manage.py migrate && heroku run python manage.py createsuperuser
+
+heroku ps
+heroku ps: stop <run.number>
+
+git init
+git add .
+git commit -m "something"
+heroku login
+git push heroku master
+heroku open
