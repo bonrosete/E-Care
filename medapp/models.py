@@ -7,7 +7,7 @@ class Accounts(models.Model):
 	password = models.CharField(max_length=45)
 	reference = models.ForeignKey('Account_Info',on_delete=models.CASCADE)
 	timestamp = models.DateTimeField(auto_now=True)
-	latest_logout = models.DateTimeField(default='1990-01-01 12:00:00')
+	latest_logout = models.DateTimeField(auto_now=True)
 	def __str__(self):
 		return self.username
 
