@@ -35,7 +35,7 @@
 					<td>{{r.date}}</td>
 					<td>{{r.starttime|time:"h:i A"}}</td>
 					<td>{{r.endtime|time:"h:i A"}}</td>
-					<td><a href={{r.id}}><button class="btn btn-primary" onclick="myFunction(this)">Confirm</button></a>
+					<td><a href={{r.id}}><button class="btn btn-primary disabled" onclick="myFunction(this)">Confirm</button></a>
 							<a href='modify/{{r.id}}'><button class="btn btn-primary" onclick="myFunction(this)">Modify</button></a></td>
 				</tr>
 				{% endfor %}

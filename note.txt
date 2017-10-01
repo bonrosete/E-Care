@@ -59,6 +59,16 @@ from <app_name>.models import <model_name>
 
 **************************
 
+TO BE ADDED:
+	Doctors request panel will include disabled confirm button if there is an existing schedule on the requested appointment,
+	forcing them to modify the request
+
+	at request page
+		if Requests.objects.all()
+
+	Include a message when cancelling a request or appointment
+	
+
 NOTE!!!
 
 // migrated from mysql to postgres for Heroku
@@ -70,7 +80,7 @@ heroku run python manage.py makemigrations
 herok run python manage.py migrate && heroku run python manage.py createsuperuser
 
 heroku ps
-heroku ps: stop <run.number>
+heroku ps:stop <run.number>
 
 git init
 git add .

@@ -87,7 +87,7 @@ def logout(request):
 	current_user.latest_logout = request.session['logout_time']
 	current_user.save()
 	request.session.clear()
-	return redirect('/')
+	return redirect('https://goo.gl/forms/HCmRo3UQS6MmZ06L2')
 
 
 def dashboard(request):
