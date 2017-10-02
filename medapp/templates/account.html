@@ -19,8 +19,6 @@
 		<div class="container" >
       <div class="row" >
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-   
-   
           <div class="panel panel-info" >
             <div class="panel-heading" >
               <h3 class="panel-title" style="text-align: center;">{{fn}} {{ln}}</h3>
@@ -50,32 +48,24 @@
                       <tr>
                         <td>Email</td>
                         <td>{{email}}</td>
+                      </tr>
                     </tbody>
                   </table>
-                  
                 </div>
               </div>
             </div>
+            <!-- <a href="/edit-account"><button class="btn btn-primary" style="float: right;">Edit Account</button></a> -->
 <!--                  <div class="panel-footer">
                         <a data-original-title="messageadmin" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i><p>Contact us</p></a>
                         <span class="pull-right">
                             <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i><p>Edit your Profile</p></a>
                         </span>
                     </div> -->
-            
           </div>
         </div>
       </div>
     </div>
-		<!-- <p>First Name: {{fn}}</p>
-		<p>Last Name: {{ln}}</p>
-		<p>Age: {{age}}</p>
-		<p>Gender: {{gender}}</p>
-		<p>Birthday: {{birthday}}</p>
-		<p>Address: {{address}}</p>
-		<p>Email: {{email}}</p> -->
 	</div>
-	<!-- Test done -->
 	{% else %}
 	<h1>There is no logged in account!<h1>
 	{% endif %}

@@ -38,7 +38,6 @@ def register(request, methods=['GET', 'POST']):
 	if(request.method == 'POST'):
 		password = request.POST['password']
 		password_check = request.POST['password_check']
-
 		if password == password_check:
 			username = request.POST['username']
 			first_name = request.POST['first_name']
@@ -63,6 +62,8 @@ def register(request, methods=['GET', 'POST']):
 			acc_login = Accounts(username=username,password=password, reference_id=ref_id.id)
 			acc_login.save()
 			return redirect('/')
+		else:
+			return render(request, 'register.html', {'error': 'Passwords do not match'})
 	return render(request, 'register.html')
 
 
@@ -169,13 +170,11 @@ def account(request):
 
 
 def makeAppointment(request, methods=['GET', 'POST']):
-
 	if request.method == 'POST':
 		doctor_name = request.POST['search']
 		all_doctors = Account_Info.objects.filter(account_type='Doctor')
 		full_doc_name = all_doctors.annotate(full_name=Concat('first_name', Value(' '), 'last_name'))
 		doctors = full_doc_name.filter(full_name__icontains=doctor_name)
-		doc_spec = Specialization.objects.all()
 	else:
 		doctors = Account_Info.objects.filter(account_type='Doctor')
 	return render(request, 'make_appointment.html', {'doctors':doctors})
@@ -272,12 +271,19 @@ def requests(request):
 	# duplicateDates = Requests.objects.values('date').annotate(Count('id')).order_by().filter(id__count__gt=1)
 	# if duplicateDates:
 	# 	appointmentObjects = Requests.objects.filter(date__in=[item['date'] for item in duplicateDates])
-	# 	if (appointmentObjects[0].starttime <= appointmentObjects[1].endtime) and (appointmentObjects[0].endtime >= appointmentObjects[1].endtime):
-	# 		print('True')
-	# 		context = {'requests': requests, 'disabled': 'disabled'}
-	# 	else:
-	# 		print('False')
-	# 		context = {'requests': requests}
+	# 	for i, j in enumerate(appointmentObjects[:-1]):
+	# 		if (j.starttime <= appointmentObjects[i+1].endtime) and (j.endtime >= appointmentObjects[i+1].endtime):
+	# 			print('True')
+	# 			context = 
+	# 		else:
+	# 			print('False')
+
+		# if (appointmentObjects[0].starttime <= appointmentObjects[1].endtime) and (appointmentObjects[0].endtime >= appointmentObjects[1].endtime):
+		# 	print('True')
+		# 	context = {'requests': requests, 'disabled': 'disabled'}
+		# else:
+		# 	print('False')
+		# 	context = {'requests': requests}
 	# else:
 	# 	context = {'requests': requests}
 	context = {'requests': requests}
@@ -381,7 +387,8 @@ def parking(request):
 	return render(request, 'parking.html', {'all_slots': all_slots, 'occupied': occupied})
 
 
-
+def editAccount(request):
+	return render(request, 'edit_account.html')
 
 
 

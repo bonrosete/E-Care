@@ -319,3 +319,8 @@ footer {
 #navbar .current {
 	background-color: #007db3;
 }
+
+/* Edit account design */
+.edit_account_container {
+	text-align: center;
+}

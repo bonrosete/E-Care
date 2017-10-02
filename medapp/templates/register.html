@@ -5,6 +5,9 @@
 {% block body %}
 	{% include 'includes/_navbar.html' %}
 	<header><h1>Use our website and become one of us</h1></header>
+	{% if error %}
+		<div class="alert alert-danger" id="alert">{{ error }}</div>
+	{% endif %}
 	<form class="register_container" action="{% url 'register' %}" method="POST">
 		{% csrf_token %}
 		<div class="form-group">
@@ -52,41 +55,4 @@
 		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
-
-<!-- 	<div class="forms">
-		<form action="{% url 'register' %}" method="POST">
-			{% csrf_token %}
-			<label for="first_name">First Name:</label>
-			<input type="text" name="first_name" id="first_name">
-			<br>
-			<label for="last_name">Last Name:</label>
-			<input type="text" name="last_name" id="last_name">
-			<br>
-			<label for="birthday">Birthday:</label>
-			<input type="text" name="birthday" id="birthday">
-			<br>
-			<label for="address">Address:</label>
-			<input type="text" name="address" id="address">
-			<br>
-			<label for="email">Email:</label>
-			<input type="text" name="email" id="email">
-			<br>
-			<label for="age">Age:</label>
-			<input type="text" name="age" id="age">
-			<br>
-			<label for="gender">Gender:</label>
-			<input type="text" name="gender" id="gender">
-			<br>
-			<label for="username">Username:</label>
-			<input type="text" name="username" id="username">
-			<br>
-			<label for="password">Password:</label>
-			<input type="password" name="password" id="password">
-			<br>
-			<label for="password_check">Retype Password:</label>
-			<input type="password" name="password_check" id="password_check">
-			<br>
-			<input type="submit" name="submit" value="submit">
-		</form>
-	</div> -->
 {% endblock %}

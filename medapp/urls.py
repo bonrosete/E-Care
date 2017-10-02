@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^sample-login$', views.sample, name='sample'),
     url(r'^access$', views.access, name='access'),
     url(r'^parking$', views.parking, name='parking'),
+    url(r'^edit-account$', views.editAccount, name='editAccount'),
 ]

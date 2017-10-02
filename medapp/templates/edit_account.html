@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Account{% endblock %}
+
+{% block body %}
+	{% if request.session.account_type == 'Patient' %}
+	{% include 'includes/_navdashp.html' %}
+	{% else %}
+	{% include 'includes/_navdashd.html' %}
+	{% endif %}
+
+	<header><h1>Edit Account</h1></header>
+	<form action="/dashboard" method="POST">
+		{% csrf_token %}
+		<div class="edit_account_container">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Old username">
+			</div>
+			
+			<button class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+{% endblock %}
