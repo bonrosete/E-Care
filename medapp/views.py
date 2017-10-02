@@ -4,6 +4,7 @@ from django import forms
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.utils import timezone
+from datetime import datetime, date
 from django.utils.dateparse import parse_date
 import dateutil.parser as dparser
 from django.db.models import Value
@@ -45,8 +46,10 @@ def register(request, methods=['GET', 'POST']):
 			birthday = request.POST['birthday']
 			address = request.POST['address']
 			email = request.POST['email']
-			age = request.POST['age']
 			gender = request.POST['gender']
+			born = datetime.strptime(birthday, "%Y-%m-%d")
+			today = date.today()
+			age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 			acc_info = Account_Info(
 				first_name=first_name,
 				last_name=last_name,
@@ -74,7 +77,7 @@ def login(request):
 		if(Accounts.objects.filter(username=username, password=password_check)):
 			request.session['logged_in'] = True
 			request.session['username'] = username
-			ac = Account_Info.objects.get(id=Accounts.objects.get(username=username, password=password_check).id)
+			ac = Account_Info.objects.get(id=Accounts.objects.get(username=username, password=password_check).reference_id)
 			request.session['account_type'] = ac.account_type
 			request.session['login_time'] = timezone.now().strftime('%Y-%m-%dT%H:%M:%S')
 			return redirect('/dashboard')
@@ -95,14 +98,14 @@ def logout(request):
 def dashboard(request):
 	if 'logged_in' in request.session:
 		user_id = Accounts.objects.get(username=request.session['username'])
-		current_user = Account_Info.objects.get(id=user_id.id)
+		current_user = Account_Info.objects.get(id=user_id.reference_id)
 		user_full_name = current_user.first_name + ' ' + current_user.last_name
 		datenow = timezone.now().date()
 		current_appointments = Appointment.objects.filter(patient=user_full_name, date=datenow)
 
 		# Validate appointments if it is past the current date, transfer to medical history
 		user_id = Accounts.objects.get(username=request.session['username'])
-		current_user = Account_Info.objects.get(id=user_id.id)
+		current_user = Account_Info.objects.get(id=user_id.reference_id)
 		user_full_name = current_user.first_name + ' ' + current_user.last_name
 		sort_appointment = Appointment.objects.order_by('date')
 		if request.session['account_type'] == 'Patient':
@@ -157,7 +160,7 @@ def dashboard(request):
 def account(request):
 	if 'logged_in' in request.session:
 		a = Accounts.objects.get(username=request.session['username'])
-		user_info = Account_Info.objects.get(id=a.id)
+		user_info = Account_Info.objects.get(id=a.reference_id)
 		context = {'fn': user_info.first_name, 
 					'ln': user_info.last_name,
 					'birthday': dparser.parse(user_info.birthday),
@@ -183,7 +186,7 @@ def makeAppointment(request, methods=['GET', 'POST']):
 def mySchedule(request):
 	if 'logged_in' in request.session:
 		user_id = Accounts.objects.get(username=request.session['username'])
-		current_user = Account_Info.objects.get(id=user_id.id)
+		current_user = Account_Info.objects.get(id=user_id.reference_id)
 		user_full_name = current_user.first_name + ' ' + current_user.last_name
 		sort_appointment = Appointment.objects.order_by('date')
 		user_appointment = sort_appointment.filter(patient=user_full_name)
@@ -205,7 +208,7 @@ def test(request, id):
 	doctor_selected = Account_Info.objects.get(id=(id))
 	doctor_bd = dparser.parse(doctor_selected.birthday)
 	user_id = Accounts.objects.get(username=request.session['username'])
-	current_user = Account_Info.objects.get(id=user_id.id)
+	current_user = Account_Info.objects.get(id=user_id.reference_id)
 	# Save to database
 	if request.method == 'POST':
 		date = request.POST['date']
@@ -243,7 +246,7 @@ def validate_date(request):
 
 def medicalHistory(request):
 	user_id = Accounts.objects.get(username=request.session['username'])
-	current_user = Account_Info.objects.get(id=user_id.id)
+	current_user = Account_Info.objects.get(id=user_id.reference_id)
 	user_full_name = current_user.first_name + ' ' + current_user.last_name
 	sort_history = MedicalHistory.objects.order_by('date')
 	medical_history =sort_history.filter(patient_name=user_full_name)
@@ -252,8 +255,7 @@ def medicalHistory(request):
 
 
 def appointments(request):
-	account = Accounts.objects.get(username=request.session['username'])
-	doctor = Account_Info.objects.get(id=account.id)
+	doctor = Account_Info.objects.get(id=Accounts.objects.get(username=request.session['username']).id)
 	appointments = Appointment.objects.filter(doctor=doctor.first_name + ' ' + doctor.last_name)
 	return render(request, 'appointments.html', {'appointments': appointments})
 
@@ -264,8 +266,7 @@ def removeAppointment(request, id):
 
 
 def requests(request):
-	user_id = Accounts.objects.get(username=request.session['username'])
-	current_user = Account_Info.objects.get(id=user_id.id)
+	current_user = Account_Info.objects.get(id=Accounts.objects.get(username=request.session['username']).id)
 	user_full_name = current_user.first_name + ' ' + current_user.last_name
 	requests = Requests.objects.filter(doctor=user_full_name)
 	# duplicateDates = Requests.objects.values('date').annotate(Count('id')).order_by().filter(id__count__gt=1)
@@ -343,7 +344,7 @@ def testTime(request):
 def notifications(request):
 	if 'logged_in' in request.session:
 		user_id = Accounts.objects.get(username=request.session['username'])
-		current_user = Account_Info.objects.get(id=user_id.id)
+		current_user = Account_Info.objects.get(id=user_id.reference_id)
 		user_full_name = current_user.first_name + ' ' + current_user.last_name
 		datenow = timezone.now().date()
 		current_appointments = Appointment.objects.filter(patient=user_full_name, date=datenow)
@@ -391,9 +392,34 @@ def editAccount(request):
 	return render(request, 'edit_account.html')
 
 
+def modifyAppointment(request, id):
+	modify_appointment = Appointment.objects.get(id=id)
+	existing_appointments = Appointment.objects.filter(date=modify_appointment.date)
+	if request.method == 'POST':
+		startTime = request.POST['timeStart']
+		endTime = request.POST['timeEnd']
+		parseST = dparser.parse(startTime)
+		st = parseST.strftime('%H:%M:%S')
+		parseET = dparser.parse(endTime)
+		et = parseET.strftime('%H:%M:%S')
+		modify_appointment.starttime = st
+		modify_appointment.endtime = et
+		modify_appointment.ismodified = 1
+		modified_appointment = Appointment(purpose=modify_appointment.purpose,doctor=modify_appointment.doctor,
+			patient=modify_appointment.patient,date=modify_appointment.date,starttime=st,endtime=et,
+			ismodified=1)
+		modified_appointment.save()
+		Appointment.objects.get(id=id).delete()
+		if request.session['account_type'] == 'Patient':
+			return redirect('/dashboard')
+		else:
+			return redirect('/appointments')
+	return render(request, 'modify_appointment.html', {'modify_appointment': modify_appointment, 'existing_appointments': existing_appointments})
 
 
-
-
-
-
+def validate_username(request):
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': Accounts.objects.filter(username__iexact=username).exists()
+    }
+    return JsonResponse(data)

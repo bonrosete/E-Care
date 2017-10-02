@@ -18,7 +18,7 @@
 			<th>Date</th>
 			<th>Start Time</th>
 			<th>End Time</th>
-			<th>Status</th>
+			<th>Actions</th>
 		</tr>
 		{% for a in appointments %}
 		<tr>
@@ -27,15 +27,18 @@
 			<td>{{a.date}}</td>
 			<td>{{a.starttime|time:"h:i A"}}</td>
 			<td>{{a.endtime|time:"h:i A"}}</td>
-			<td><a href={{a.id}}><button onclick="myFunction(this)" class="btn btn-danger">Cancel</button></a></td>
+			<td>
+				<a href='modify/{{a.id}}'><button onclick="myFunction(this)" class="btn btn-default" id="confirm_modify">Modify</button></a>
+				<a href={{a.id}}><button onclick="myFunction(this)" class="btn btn-danger" id="confirm_cancel">Cancel</button></a>
+			</td>
 		</tr>
 		{% endfor %}
 	</table>
 	</div>
 	<script type="text/javascript">
-		function myFunction(r){
-			alert('Success');
-		}
+		$(document).on('click', '#confirm_cancel', function(){
+			return confirm("Are you sure you want to cancel the appointment?");
+		});
 	</script>
 	{% endif %}
 {% endblock %}

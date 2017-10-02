@@ -64,7 +64,7 @@
 			<th>Date</th>
 			<th>Start Time</th>
 			<th>End Time</th>
-			<th>Status</th>
+			<th>Actions</th>
 		</tr>
 		{% for a in user_appointment %}
 		<tr>
@@ -73,7 +73,10 @@
 			<td>{{a.date}}</td>
 			<td>{{a.starttime|time:"h:i A"}}</td>
 			<td>{{a.endtime|time:"h:i A"}}</td>
-			<td><a href="{{a.id}}" class="confirm_delete"><button class="btn btn-danger">Cancel</button></a></td>
+			<td>
+				<a href="modify/{{a.id}}" class="confirm_modify"><button class="btn btn-default">Modify</button></a>
+				<a href="{{a.id}}" class="confirm_delete"><button class="btn btn-danger">Cancel</button></a>
+			</td>
 		</tr>
 		{% endfor %}
 	</table>
