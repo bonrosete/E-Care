@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
+from django.db.models import Count
 
 # Django REST Framework Configuration
 # from django.contrib.auth.models import User, Group
@@ -268,6 +269,17 @@ def requests(request):
 	current_user = Account_Info.objects.get(id=user_id.id)
 	user_full_name = current_user.first_name + ' ' + current_user.last_name
 	requests = Requests.objects.filter(doctor=user_full_name)
+	# duplicateDates = Requests.objects.values('date').annotate(Count('id')).order_by().filter(id__count__gt=1)
+	# if duplicateDates:
+	# 	appointmentObjects = Requests.objects.filter(date__in=[item['date'] for item in duplicateDates])
+	# 	if (appointmentObjects[0].starttime <= appointmentObjects[1].endtime) and (appointmentObjects[0].endtime >= appointmentObjects[1].endtime):
+	# 		print('True')
+	# 		context = {'requests': requests, 'disabled': 'disabled'}
+	# 	else:
+	# 		print('False')
+	# 		context = {'requests': requests}
+	# else:
+	# 	context = {'requests': requests}
 	context = {'requests': requests}
 	return render(request, 'requests.html', context)
 
@@ -287,7 +299,8 @@ def acceptRequest(request, id):
 
 def modifyRequest(request, id):
 	requestToModify = Requests.objects.get(id=id)
-	context = {'modify': requestToModify}
+	existingAppointments = Appointment.objects.filter(date=requestToModify.date)
+	context = {'modify': requestToModify, 'existingAppointments': existingAppointments}
 	if request.method == 'POST':
 		startTime = request.POST['timeStart']
 		endTime = request.POST['timeEnd']
@@ -303,7 +316,7 @@ def modifyRequest(request, id):
 			ismodified=1)
 		modified_appointment.save()
 		Requests.objects.filter(id=id).delete()
-		return redirect('/dashboard')
+		return redirect('/requests')
 	return render(request, 'modify_request.html', context)
 
 

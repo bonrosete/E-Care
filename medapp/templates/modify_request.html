@@ -15,6 +15,9 @@
 	<header>
 		<h1>Modify Request</h1>
 		<p>You can only modify the date and time of the request.</p>
+		{% for ea in existingAppointments %}
+			<p>{{ea.starttime}} {{ea.endtime}}</p>
+		{% endfor %}
 	</header>
 	<div class="container">
 		<table class="table table-striped" id="table">
@@ -44,17 +47,28 @@
 			</div>
 			<script type="text/javascript">
 				$('#eventsExample .time').timepicker({
-			        'showDuration': true,
+			        'showDuration': false,
 			        'timeFormat': 'g:ia',
 			        'scrollDefault': 'now',
+			        'minTime': '9:00am',
+	  				'maxTime': '6:00pm',
 			        'disableTimeRanges': [
-			        	['12am', '9am'],
-			        	['8pm', '11:59pm'],
+			        	{% for ea in existingAppointments %}
+			        		['{{ea.starttime}}, {{ea.endtime}}'],
+						{% endfor %}
 			        ]
 
 			    });
 			    var basicExampleEl = document.getElementById('eventsExample');
 			    var datepair = new Datepair(basicExampleEl);
+			    // var pair = [];
+			    // {% for ea in existingAppointments %}
+			    // 	pair.push([{{ea.starttime}}, {{ea.endtime}}]);
+			    // {% endfor %}
+	    		// for (var i=0; i<data.length; i++){
+	    		// 	pair.push([data[i]['starttime'], data[i]['endtime']])
+	    		// };
+	    		// $('#eventsExample .time').timepicker('option', {'disableTimeRanges': pair, 'minTime': '9:00am', 'maxTime': '6:00pm'});
 				function myFunction(r){
 					alert('Modify successful');
 				}
