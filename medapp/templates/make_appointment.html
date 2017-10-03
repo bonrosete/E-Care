@@ -20,43 +20,30 @@
 	<div class="search_doctor_container">
 		<form method="POST" action="/make-appointment/">
 			{% csrf_token %}
-
-
-			<!-- <div class="col-lg-6">
-			    <div class="input-group pull-right">
-			      <input type="text" class="form-control" style="width:150px" placeholder="Find doctor..." name="search">
-			      <span class="input-group-btn pull-right">
-			        <button class="btn btn-secondary ">Search</button>
-			      </span>
-			    </div>
-			  </div> -->
-			
-
-			<!-- <input type="text" class="form-control" name="search" placeholder="Search doctor">
-			<button class="btn btn-secondary">Search</button> -->
 			<input type="text" name="search" placeholder="Search doctor">
 			<button class="btn btn-secondary">Search</button>
 		</form>
 	</div>
 	<div class="test">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Doctor</th>
-					<th>Contact</th>
-				</tr>
-			</thead>
-			<!-- <tbody class="clickable-row"> -->
-			<tbody>
-				{% for d in doctors %}
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
 					<tr>
-					<!-- <td><a href="{{d.first_name}}">{{d.first_name}}</a></td> -->
-						<td><a href={{d.id}}>{{d.first_name}} {{d.last_name}}</a></td>
-						<td>{{d.email}}</td>
+						<th>Doctor</th>
+						<th>Contact</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+				<!-- <tbody class="clickable-row"> -->
+				<tbody>
+					{% for d in doctors %}
+						<tr>
+							<td><a href={{d.id}}>{{d.first_name}} {{d.last_name}}</a></td>
+							<td>{{d.email}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<div class="container">
 		{% for s in doc_spec %}
