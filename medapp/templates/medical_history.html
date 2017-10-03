@@ -20,20 +20,22 @@
 	</header>
 	<div class="test">
 	<div class="table-responsive">
-		<table class="table table-striped">
-			<tr>
-				<th>Purpose</th>
-				<th>Doctor</th>
-				<th>Date</th>
-			</tr>
-			{% for m in medical_history %}
-			<tr>
-				<td>{{m.diagnosis}}</td>
-				<td>{{m.doctor_name}}</td>
-				<td>{{m.date}}</td>
-			</tr>
-			{% endfor %}
-		</table>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<tr>
+					<th>Purpose</th>
+					<th>Doctor</th>
+					<th>Date</th>
+				</tr>
+				{% for m in medical_history %}
+				<tr>
+					<td>{{m.diagnosis}}</td>
+					<td>{{m.doctor_name}}</td>
+					<td>{{m.date}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
 	</div>
 	</div>
 	{% endif %}

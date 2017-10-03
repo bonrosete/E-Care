@@ -17,22 +17,24 @@
 		<p>You can only modify the date and time of the request.</p>
 	</header>
 	<div class="container">
-		<table class="table table-striped" id="table">
-			<tr>
-				<th>Purpose</th>
-				<th>Patient</th>
-				<th>Date</th>
-				<th>Start Time</th>
-				<th>End Time</th>
-			</tr>
-			<tr>
-				<td>{{modify.purpose}}</td>
-				<td>{{modify.patient}}</td>
-				<td>{{modify.date}}</td>
-				<td>{{modify.starttime|time:"h:i A"}}</td>
-				<td>{{modify.endtime|time:"h:i A"}}</td>
-			</tr>
-		</table>
+		<div class="table-responsive">
+			<table class="table table-striped" id="table">
+				<tr>
+					<th>Purpose</th>
+					<th>Patient</th>
+					<th>Date</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+				</tr>
+				<tr>
+					<td>{{modify.purpose}}</td>
+					<td>{{modify.patient}}</td>
+					<td>{{modify.date}}</td>
+					<td>{{modify.starttime|time:"h:i A"}}</td>
+					<td>{{modify.endtime|time:"h:i A"}}</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<form action="#" method="POST" class="modify_container">
 			{% csrf_token %}

@@ -19,30 +19,32 @@
 			<p>Accept or modify requests from patients.</p>
 		</header>
 		<div class="container">
-			<table class="table table-striped" id="table">
-				<tr>
-					<th>Purpose</th>
-					<th>Patient</th>
-					<th>Date</th>
-					<th>Start Time</th>
-					<th>End Time</th>
-					<th>Actions</th>
-				</tr>
-				{% for r in requests %}
-				<tr>
-					<td>{{r.purpose}}</td>
-					<td>{{r.patient}}</td>
-					<td>{{r.date}}</td>
-					<td>{{r.starttime|time:"h:i A"}}</td>
-					<td>{{r.endtime|time:"h:i A"}}</td>
-					<td>
-						<a href={{r.id}}><button class="btn btn-primary {{disabled}}" onclick="myFunction(this)">Confirm</button></a>
-						<a href='modify/{{r.id}}'><button class="btn btn-default">Modify</button></a>
-						<a href='cancel/{{r.id}}'><button class="btn btn-danger" id="id_cancel">Cancel</button></a>
-					</td>
-				</tr>
-				{% endfor %}
-			</table>
+			<div class="table-responsive">
+				<table class="table table-striped" id="table">
+					<tr>
+						<th>Purpose</th>
+						<th>Patient</th>
+						<th>Date</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+						<th>Actions</th>
+					</tr>
+					{% for r in requests %}
+					<tr>
+						<td>{{r.purpose}}</td>
+						<td>{{r.patient}}</td>
+						<td>{{r.date}}</td>
+						<td>{{r.starttime|time:"h:i A"}}</td>
+						<td>{{r.endtime|time:"h:i A"}}</td>
+						<td>
+							<a href={{r.id}}><button class="btn btn-primary {{disabled}}" onclick="myFunction(this)">Confirm</button></a>
+							<a href='modify/{{r.id}}'><button class="btn btn-default">Modify</button></a>
+							<a href='cancel/{{r.id}}'><button class="btn btn-danger" id="id_cancel">Cancel</button></a>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
 		</div>
 
 		<script type="text/javascript">

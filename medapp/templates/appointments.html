@@ -11,29 +11,31 @@
 		<h1>Upcoming Appointments</h1>
 		<p>These are your appointments. Appointments are automatically checked if it is done.</p></header>
 	<div class="container">
-	<table class="table table-striped" id="table">
-		<tr>
-			<th>Purpose</th>
-			<th>Patient</th>
-			<th>Date</th>
-			<th>Start Time</th>
-			<th>End Time</th>
-			<th>Actions</th>
-		</tr>
-		{% for a in appointments %}
-		<tr>
-			<td>{{a.purpose}}</td>
-			<td>{{a.patient}}</td>
-			<td>{{a.date}}</td>
-			<td>{{a.starttime|time:"h:i A"}}</td>
-			<td>{{a.endtime|time:"h:i A"}}</td>
-			<td>
-				<a href='modify/{{a.id}}'><button onclick="myFunction(this)" class="btn btn-default" id="confirm_modify">Modify</button></a>
-				<a href={{a.id}}><button onclick="myFunction(this)" class="btn btn-danger" id="confirm_cancel">Cancel</button></a>
-			</td>
-		</tr>
-		{% endfor %}
-	</table>
+		<div class="table-responsive">
+			<table class="table table-striped" id="table">
+				<tr>
+					<th>Purpose</th>
+					<th>Patient</th>
+					<th>Date</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Actions</th>
+				</tr>
+				{% for a in appointments %}
+				<tr>
+					<td>{{a.purpose}}</td>
+					<td>{{a.patient}}</td>
+					<td>{{a.date}}</td>
+					<td>{{a.starttime|time:"h:i A"}}</td>
+					<td>{{a.endtime|time:"h:i A"}}</td>
+					<td>
+						<a href='modify/{{a.id}}'><button onclick="myFunction(this)" class="btn btn-default" id="confirm_modify">Modify</button></a>
+						<a href={{a.id}}><button onclick="myFunction(this)" class="btn btn-danger" id="confirm_cancel">Cancel</button></a>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
 	</div>
 	<script type="text/javascript">
 		$(document).on('click', '#confirm_cancel', function(){

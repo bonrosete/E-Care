@@ -16,30 +16,32 @@
 		<p>You can modify the time of the appointment here.</p>
 	</header>
 	<div class="container">
-		<table class="table table-striped" id="table">
-			<tr>
-				<th>Purpose</th>
-				{% if request.session.account_type == 'Patient' %}
-					<th>Doctor</th>
-				{% else %}
-					<th>Patient</th>
-				{% endif %}
-				<th>Date</th>
-				<th>Start Time</th>
-				<th>End Time</th>
-			</tr>
-			<tr>
-				<td>{{modify_appointment.purpose}}</td>
-				{% if request.session.account_type == 'Patient' %}
-					<td>{{modify_appointment.doctor}}</td>
-				{% else %}
-					<td>{{modify_appointment.patient}}</td>
-				{% endif %}
-				<td>{{modify_appointment.date}}</td>
-				<td>{{modify_appointment.starttime|time:"h:i A"}}</td>
-				<td>{{modify_appointment.endtime|time:"h:i A"}}</td>
-			</tr>
-		</table>
+		<div class="table-responsive">
+			<table class="table table-striped" id="table">
+				<tr>
+					<th>Purpose</th>
+					{% if request.session.account_type == 'Patient' %}
+						<th>Doctor</th>
+					{% else %}
+						<th>Patient</th>
+					{% endif %}
+					<th>Date</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+				</tr>
+				<tr>
+					<td>{{modify_appointment.purpose}}</td>
+					{% if request.session.account_type == 'Patient' %}
+						<td>{{modify_appointment.doctor}}</td>
+					{% else %}
+						<td>{{modify_appointment.patient}}</td>
+					{% endif %}
+					<td>{{modify_appointment.date}}</td>
+					<td>{{modify_appointment.starttime|time:"h:i A"}}</td>
+					<td>{{modify_appointment.endtime|time:"h:i A"}}</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<form action="#" method="POST" class="modify_container">
 			{% csrf_token %}
