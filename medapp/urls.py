@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^requests/$', views.requests, name='requests'),
     url(r'^requests/([0-9]+)$', views.acceptRequest, name='acceptRequest'),
     url(r'^requests/modify/([0-9]+)$', views.modifyRequest, name='modifyRequest'),
+    url(r'^requests/cancel/([0-9]+)$', views.cancelRequest, name='cancelRequest'),
     url(r'^test-time$', views.testTime, name='testTime'),
     url(r'^calendar$', views.calendar, name='calendar'),
     url(r'^notifications$', views.notifications, name='notifications'),

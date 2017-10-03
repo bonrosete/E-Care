@@ -38,6 +38,7 @@
 					<td>
 						<a href={{r.id}}><button class="btn btn-primary {{disabled}}" onclick="myFunction(this)">Confirm</button></a>
 						<a href='modify/{{r.id}}'><button class="btn btn-default">Modify</button></a>
+						<a href='cancel/{{r.id}}'><button class="btn btn-danger" id="id_cancel">Cancel</button></a>
 					</td>
 				</tr>
 				{% endfor %}
@@ -48,6 +49,12 @@
 			function myFunction(r){
 				alert('Appointment Confirmed');
 			}
+			function cancelRequest(r){
+				alert('Request canceled');
+			}
+			$(document).on('click', '#id_cancel', function(){
+				return confirm("Are you sure you want to cancel the request?");
+			});
 		</script>
 	{% else %}
 	<header><h1>No requests to display</h1></header>

@@ -26,31 +26,6 @@ body {
 	margin: 0 25% 0 25%;
 }
 
-/* Index design */
-/*#test p {
-    opacity: 0;
-    font-size: 21px;
-    margin-top: 25px;
-    text-align: center;
-
-    -webkit-transition: opacity 2s ease-in;
-       -moz-transition: opacity 2s ease-in;
-        -ms-transition: opacity 2s ease-in;
-         -o-transition: opacity 2s ease-in;
-            transition: opacity 2s ease-in;
-}
-
-#test p.load {
-    opacity: 1;
-}*/
-
-/* Carousel design */
-/*.item img {
-  width: auto;
-  height: 720px;
-  max-height: 720px;
-}*/
-
 /* make-appointment design */
 
 .search_doctor_container {
@@ -176,6 +151,72 @@ body {
 	padding: 10px;
 }
 
+.box_container {
+	width: 80%;
+	margin: auto;
+	overflow: hidden;
+}
+
+#boxes {
+	margin-top: 20px;
+}
+
+#boxes .box {
+	float: left;
+	width: 30%;
+	padding: 10px;
+	text-align: center;
+}
+
+#boxes .box img {
+	width: 90px;
+}
+
+@media(max-width: 993px) {
+	#boxes .box,
+	.navbar,
+	#navbar li a{
+		float: none;
+		text-align: center;
+		width: 100%;
+	}
+
+	 .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+}
+
 .box1{
 	height: 15%;
     width: 27%;
@@ -293,6 +334,12 @@ footer {
 /* Bootstrap navbar custom design */
 .navbar {
     background-color: #4dc9ff;
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+   .collapse {
+       display: none !important;
+   }
 }
 
 #navbar li a{

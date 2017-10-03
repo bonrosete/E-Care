@@ -27,7 +27,7 @@
 
     {% include 'includes/_navdashd.html' %}
       {% if request.session.logged_in %}
-      <!-- Content for patient dashboard -->
+      <!-- Content for doctor dashboard -->
       <header><h1>Welcome <small>Dr. {{request.session.username}}</small></h1></header>
       {% else %}
       <h1>There is no logged in account!<h1>

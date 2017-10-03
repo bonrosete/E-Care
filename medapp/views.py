@@ -92,7 +92,8 @@ def logout(request):
 	current_user.latest_logout = request.session['logout_time']
 	current_user.save()
 	request.session.clear()
-	return redirect('https://goo.gl/forms/XpjSZnXPuMhP8rzo1')
+	# return redirect('https://goo.gl/forms/XpjSZnXPuMhP8rzo1')
+	return redirect('/')
 
 
 def dashboard(request):
@@ -405,9 +406,11 @@ def modifyAppointment(request, id):
 		modify_appointment.starttime = st
 		modify_appointment.endtime = et
 		modify_appointment.ismodified = 1
-		modified_appointment = Appointment(purpose=modify_appointment.purpose,doctor=modify_appointment.doctor,
-			patient=modify_appointment.patient,date=modify_appointment.date,starttime=st,endtime=et,
-			ismodified=1)
+		# modified_appointment = Appointment(purpose=modify_appointment.purpose,doctor=modify_appointment.doctor,
+		# 	patient=modify_appointment.patient,date=modify_appointment.date,starttime=st,endtime=et,
+		# 	ismodified=1)
+		modified_appointment = Requests(purpose=modify_appointment.purpose,doctor=modify_appointment.doctor,
+			patient=modify_appointment.patient,date=modify_appointment.date,starttime=st,endtime=et)
 		modified_appointment.save()
 		Appointment.objects.get(id=id).delete()
 		if request.session['account_type'] == 'Patient':
@@ -417,9 +420,13 @@ def modifyAppointment(request, id):
 	return render(request, 'modify_appointment.html', {'modify_appointment': modify_appointment, 'existing_appointments': existing_appointments})
 
 
+def cancelRequest(request, id):
+	cancelRequest = Requests.objects.get(id=id).delete()
+	return redirect('/dashboard')
+
 def validate_username(request):
     username = request.GET.get('username', None)
     data = {
         'is_taken': Accounts.objects.filter(username__iexact=username).exists()
     }
-    return JsonResponse(data)
+    return JsonResponse(data)    
