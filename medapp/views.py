@@ -36,6 +36,8 @@ def calendar(request):
 
 
 def register(request, methods=['GET', 'POST']):
+	today = date.today()
+	print(today)
 	if(request.method == 'POST'):
 		password = request.POST['password']
 		password_check = request.POST['password_check']
@@ -67,7 +69,7 @@ def register(request, methods=['GET', 'POST']):
 			return redirect('/')
 		else:
 			return render(request, 'register.html', {'error': 'Passwords do not match'})
-	return render(request, 'register.html')
+	return render(request, 'register.html', {'date_today': today})
 
 
 def login(request):
