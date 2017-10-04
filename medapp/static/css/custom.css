@@ -279,6 +279,7 @@ body {
 
 .myCarousel {
 	margin: 0;
+	width: auto;
 }
 
 #calendar{
