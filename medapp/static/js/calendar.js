@@ -9,7 +9,7 @@ $(document).ready(function(){
 	});
 
 	$('#eventsExample .date').datepicker({
-		'startDate': '+1w',
+		// 'startDate': '+1w',
 		'endDate': '+5w',
 	    'format': 'yyyy-mm-dd',
 	    'autoclose': true,
