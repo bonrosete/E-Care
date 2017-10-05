@@ -255,7 +255,7 @@ def medicalHistory(request):
 
 def appointments(request):
 	doctor = Account_Info.objects.get(id=Accounts.objects.get(username=request.session['username']).id)
-	appointments = Appointment.objects.filter(doctor=doctor.first_name + ' ' + doctor.last_name)
+	appointments = Appointment.objects.filter(doctor=doctor.first_name + ' ' + doctor.last_name).order_by('date')
 	return render(request, 'appointments.html', {'appointments': appointments})
 
 
