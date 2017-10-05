@@ -238,7 +238,7 @@ def validate_date(request):
 	if Appointment.objects.filter(date=selected_date, doctor=selected_doctor).exists() == True:
 		result = Appointment.objects.filter(date=selected_date, doctor=selected_doctor).values('starttime', 'endtime')
 		data = list(result)
-		return JsonRespone(data, safe=False)
+		return JsonResponse(data, safe=False)
 	else:
 		return render(request, 'test.html')
 
