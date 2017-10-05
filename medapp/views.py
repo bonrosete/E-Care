@@ -15,10 +15,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.db.models import Count
 
-# Django REST Framework Configuration
-# from django.contrib.auth.models import User, Group
-# from rest_framework import viewsets
-
 def index(request):
 	if 'logged_in' in request.session:
 		return redirect('/dashboard')
@@ -239,10 +235,10 @@ def test(request, id):
 def validate_date(request):
 	selected_date = request.GET.get('date', None)
 	selected_doctor = request.GET.get('doctor_name', None)
-	if Appointment.objects.filter(date=selected_date, doctor=selected_doctor).exists() == True:
+	if Appointment.objects.filter(date=selected_date, doctor=selected_doctor).exitst() == True:
 		result = Appointment.objects.filter(date=selected_date, doctor=selected_doctor).values('starttime', 'endtime')
 		data = list(result)
-		return JsonResponse(data, safe=False)
+		return JsonRespone(data, safe=False)
 	else:
 		return render(request, 'test.html')
 
@@ -272,24 +268,6 @@ def requests(request):
 	current_user = Account_Info.objects.get(id=Accounts.objects.get(username=request.session['username']).id)
 	user_full_name = current_user.first_name + ' ' + current_user.last_name
 	requests = Requests.objects.filter(doctor=user_full_name)
-	# duplicateDates = Requests.objects.values('date').annotate(Count('id')).order_by().filter(id__count__gt=1)
-	# if duplicateDates:
-	# 	appointmentObjects = Requests.objects.filter(date__in=[item['date'] for item in duplicateDates])
-	# 	for i, j in enumerate(appointmentObjects[:-1]):
-	# 		if (j.starttime <= appointmentObjects[i+1].endtime) and (j.endtime >= appointmentObjects[i+1].endtime):
-	# 			print('True')
-	# 			context = 
-	# 		else:
-	# 			print('False')
-
-		# if (appointmentObjects[0].starttime <= appointmentObjects[1].endtime) and (appointmentObjects[0].endtime >= appointmentObjects[1].endtime):
-		# 	print('True')
-		# 	context = {'requests': requests, 'disabled': 'disabled'}
-		# else:
-		# 	print('False')
-		# 	context = {'requests': requests}
-	# else:
-	# 	context = {'requests': requests}
 	context = {'requests': requests}
 	return render(request, 'requests.html', context)
 
@@ -408,9 +386,6 @@ def modifyAppointment(request, id):
 		modify_appointment.starttime = st
 		modify_appointment.endtime = et
 		modify_appointment.ismodified = 1
-		# modified_appointment = Appointment(purpose=modify_appointment.purpose,doctor=modify_appointment.doctor,
-		# 	patient=modify_appointment.patient,date=modify_appointment.date,starttime=st,endtime=et,
-		# 	ismodified=1)
 		modified_appointment = Requests(purpose=modify_appointment.purpose,doctor=modify_appointment.doctor,
 			patient=modify_appointment.patient,date=modify_appointment.date,starttime=st,endtime=et)
 		modified_appointment.save()
